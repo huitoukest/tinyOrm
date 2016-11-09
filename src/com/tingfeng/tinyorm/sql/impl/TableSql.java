@@ -1,14 +1,14 @@
 package com.tingfeng.tinyorm.sql.impl;
 
-public class DbTable {
+public class TableSql {
 	
-	public static DbTable getDbTableByQuery(Query query){
+	public static TableSql getDbTableByQuery(QuerySql querySql){
 		
-		return new DbTable("("+query.getQueryString()+")","");
+		return new TableSql("("+querySql.getQueryString()+")","");
 	}
-	public static DbTable getDbTableByQuery(Query query,String aliesName){
+	public static TableSql getDbTableByQuery(QuerySql querySql,String aliesName){
 		
-		return new DbTable("("+query.getQueryString()+")",aliesName);
+		return new TableSql("("+querySql.getQueryString()+")",aliesName);
 	}
 	
 	private Class<?> cls=null;
@@ -16,12 +16,12 @@ public class DbTable {
 	private String tableName=null;
 	private  JoinCondition joinCondition=null;
 	
-	public DbTable(Class<?> cls,String alies){
+	public TableSql(Class<?> cls,String alies){
 		this.cls=cls;
 		this.tableName=cls.getSimpleName();
 		this.alies=alies;
 	}
-	public DbTable(String table,String alies){		
+	public TableSql(String table,String alies){		
 		this.tableName=table;
 		this.alies=alies;
 	}

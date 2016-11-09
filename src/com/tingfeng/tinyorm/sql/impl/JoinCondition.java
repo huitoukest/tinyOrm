@@ -1,85 +1,40 @@
 package com.tingfeng.tinyorm.sql.impl;
 
+import com.tingfeng.tinyorm.constant.ConnectKeyWords;
+import com.tingfeng.tinyorm.constant.ConnectType;
+import com.tingfeng.tinyorm.sql.ASqlString;
 import com.tingfeng.tinyorm.constant.JoinType;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class JoinCondition extends ArrayList<String> {
-	private DbTable joinTable=null;
+public class JoinCondition extends ASqlString<String>{
+    private static final long serialVersionUID = 1L;
+	private TableSql joinTable=null;
 	private JoinType joinType=null;
-	
-	public List<Object> paramsList=new ArrayList<Object>();
-	
-	public JoinCondition(DbTable table,JoinType joinType){
+		
+	public JoinCondition(TableSql table,JoinType joinType){
 		this.joinTable=table;
 		this.joinType=joinType;
 	}
-	
-	public void add(String whereString,Object params){
-		this.add(whereString);
-		this.paramsList.add(params);
-	}
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	 /**
-     * 
-     * @param whereString
-     * @param sb 鍦⊿tringBuilder鍚庨檮鍔爓here鏉′欢
-     * @return
-     */
-	public String getWhereString(StringBuilder sb){
-		List<String> whereList=this;
-		StringBuilder sBuilder=null;
-		if(whereList==null||whereList.isEmpty()){
-			return "";
-		}
-		if(sb==null){
-		   sBuilder=new StringBuilder();
-		}else{
-			sBuilder=sb;
-		}
-		for(int i=0;i<whereList.size();i++){
-			if(i==0)
-			sBuilder.append(" on ");
-			 if(i>0)
-				 sBuilder.append(" and ");
-			sBuilder.append(whereList.get(i));
-			if(i==whereList.size()){
-				sBuilder.append(" ");
-			}
-		}
-		return sBuilder.toString();
-	}
-	/**
-	 * 杩斿洖姣忎竴涓獁here鏉′欢;
-	 * @param whereString
-	 * @return
-	 */
-	public String getWhereString(){
-		return 	this.getWhereString(null);
-	}
-	public List<Object> getParamsList() {
-		return paramsList;
-	}
-	public void setParamsList(List<Object> paramsList) {
-		this.paramsList = paramsList;
-	}	
-	
-	public DbTable getJoinTable() {
-		return joinTable;
-	}
-	public void setJoinTable(DbTable joinTable) {
-		this.joinTable = joinTable;
-	}
-	public JoinType getJoinType() {
-		return joinType;
-	}
-	public void setJoinType(JoinType joinType) {
-		this.joinType = joinType;
-	}
+	@Override
+	public ConnectType getDefaultConnectType() {
+        return ConnectType.AND;
+    }
+
+    @Override
+    public ConnectKeyWords getConnectKeyWords() {
+        return ConnectKeyWords.ON;
+    }
+    public TableSql getJoinTable() {
+        return joinTable;
+    }
+    public void setJoinTable(TableSql joinTable) {
+        this.joinTable = joinTable;
+    }
+    public JoinType getJoinType() {
+        return joinType;
+    }
+    public void setJoinType(JoinType joinType) {
+        this.joinType = joinType;
+    }
+    
+    
 }
