@@ -8,6 +8,11 @@ import com.tingfeng.tinyorm.constant.ConnectType;
 public class WhereSql extends ASqlString<String>{
     private static final long serialVersionUID = 1L;
 
+    
+    public void add(WhereSql whereSql,ConnectType connectType){
+        
+    }
+    
     @Override
     public ConnectType getDefaultConnectType() {
         return ConnectType.AND;

@@ -14,10 +14,8 @@ public class QuerySql {
 	private WhereSql whereSql=null;
 	private OrderBySql orderBySql=null;	
 	private LimitSql limitSql=null;
+	private List<Object> allParams=new ArrayList<Object>(10);
 	
-	public void setFromTables(TablesSql tables){
-		   this.tables=tables;
-	}
 	/**
 	 * @param colums
 	 */
@@ -131,11 +129,10 @@ public class QuerySql {
         for(int i=0;i<sqlList.size();i++)
         {
             ISqlString<?> sqlString=sqlList.get(i);
-            System.out.print(sqlString.getSqlString()+"\t");
-            this.printParams(sqlString);
-            System.out.println();
-           
-        }	  
+            System.out.println(sqlString.getSqlString()+"\t");
+            System.out.println();           
+        }	 
+        this.printParams(getAllParams());
 	}
 	
 	/**
@@ -146,10 +143,51 @@ public class QuerySql {
         if(null!=sqlString){
             for(int i=0;i<sqlString.getParamsList().size();i++){
                 if(i>0)
-                    System.out.print(",");
+                    {
+                        System.out.print(",");
+                    }
                 Object object=sqlString.getParamsList().get(i);
                 System.out.print(object.toString());
             }
         }
 	}
+	
+	/**
+     * 参数打印
+     */
+    protected void printParams(List<Object> sqlString){
+        System.out.print("params:");
+        if(null!=sqlString){
+            for(int i=0;i<sqlString.size();i++){
+                if(i>0)
+                    {
+                        System.out.print(",");
+                    }
+                Object object=sqlString.get(i);
+                System.out.print(object.toString());
+            }
+        }
+    }
+	/**
+	 * 转换为一个table
+	 * @param aliesName
+	 * @return
+	 */
+    public TableSql toTableSql(String aliesName){
+        TableSql tables=new TableSql("("+this.getQueryString()+")",aliesName);
+        tables.setParams(this.getAllParams());
+        return tables;
+    }
+
+    public List<Object> getAllParams() {
+        allParams.clear();
+        List<ISqlString<?>> sqlList=this.getSqlList();
+        for(int i=0;i<sqlList.size();i++)
+        {
+            ISqlString<?> sqlString=sqlList.get(i);
+            allParams.addAll(sqlString.getParamsList());
+        }
+      return this.allParams;
+    }
+    
 }

@@ -12,35 +12,62 @@ public class TablesSql extends ASqlString<TableSql>{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public String getDbTablesString(StringBuilder sb){
-		List<TableSql> whereList=new ArrayList<TableSql>();
-		StringBuilder sBuilder=null;
-		if(whereList==null||whereList.isEmpty()){
-			return "";
-		}
-		if(sb==null){
-		   sBuilder=new StringBuilder();
-		}else{
-			sBuilder=sb;
-		}
-		for(int i=0;i<whereList.size();i++){
-			 if(i>0)
-				 sBuilder.append(" , ");
-			
-			sBuilder.append(whereList.get(i).getTableName());
-			sBuilder.append(" AS ");
-			sBuilder.append(whereList.get(i).getAlies());
-			
-			if(i==whereList.size()){
-				sBuilder.append(" ");
-			}
-		}
-		return sBuilder.toString();
-	}
+	
+	@Override
+    public String getSqlString(StringBuilder sb) {
+	    List<TableSql> whereList=this.getSqlList();
+        StringBuilder sBuilder=null;
+        if(whereList==null||whereList.isEmpty()){
+            return "";
+        }
+        if(sb==null){
+           sBuilder=new StringBuilder();
+        }else{
+            sBuilder=sb;
+        }
+        if(!whereList.isEmpty()){
+            sBuilder.append(" ");
+            sBuilder.append(this.getConnectKeyWords());
+            sBuilder.append(" ");
+        }
+        for(int i=0;i<whereList.size();i++){
+             if(i>0)
+                 {
+                     sBuilder.append(" , ");             
+                 }
+            sBuilder.append(whereList.get(i).getTableName());
+            sBuilder.append(" AS ");
+            sBuilder.append(whereList.get(i).getAlies());
+            
+            if(i==whereList.size()){
+                sBuilder.append(" ");
+            }
+        }
+        return sBuilder.toString();
+    }
 
-	public String getDbTablesString(){
-		return 	this.getDbTablesString(null);
-	}
+	
+	
+    @Override
+    public List<Object> getParamsList() {
+        if(this.paramsList!=null){
+            this.paramsList.clear();
+        }else{
+            this.paramsList=new ArrayList<Object>();
+        }
+        List<TableSql> whereList=this.getSqlList();
+        for(TableSql tab:whereList){
+            this.paramsList.addAll(tab.getParams());
+        }
+        return this.paramsList;
+    }
+
+
+
+    @Override
+    public String getSqlString() {
+        return  this.getSqlString(null);
+    }
 
     @Override
     public ConnectType getDefaultConnectType() {

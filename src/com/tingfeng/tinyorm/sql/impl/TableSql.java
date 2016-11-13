@@ -1,29 +1,26 @@
 package com.tingfeng.tinyorm.sql.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TableSql {
-	
-	public static TableSql getDbTableByQuery(QuerySql querySql){
-		
-		return new TableSql("("+querySql.getQueryString()+")","");
-	}
-	public static TableSql getDbTableByQuery(QuerySql querySql,String aliesName){
-		
-		return new TableSql("("+querySql.getQueryString()+")",aliesName);
-	}
 	
 	private Class<?> cls=null;
 	private String alies="";
 	private String tableName=null;
 	private  JoinCondition joinCondition=null;
+	private List<Object> params=null;
 	
 	public TableSql(Class<?> cls,String alies){
 		this.cls=cls;
 		this.tableName=cls.getSimpleName();
 		this.alies=alies;
+		this.params=new ArrayList<Object>();
 	}
 	public TableSql(String table,String alies){		
 		this.tableName=table;
 		this.alies=alies;
+		this.params=new ArrayList<Object>();
 	}
 
 	public Class<?> getCls() {
@@ -52,6 +49,10 @@ public class TableSql {
 	public void setJoinCondition(JoinCondition joinCondition) {
 		this.joinCondition = joinCondition;
 	}
-	
-	
+    public List<Object> getParams() {
+        return params;
+    }
+    public void setParams(List<Object> params) {
+        this.params = params;
+    }	
 }

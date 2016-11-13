@@ -99,19 +99,18 @@ public abstract class ASqlString<T> implements Serializable,ISqlString<T>{
         }
         for(int i=0;i<sList.size();i++){
             if(i==0)
-            {
-                sBuilder.append(" ");
+            {   sBuilder.append(" ");
                 sBuilder.append(this.getConnectKeyWords().getConnectKeyWords());
                 sBuilder.append(" ");
             }
             if(i>0)
-            {    sBuilder.append(" ");
+            {    
                  sBuilder.append(this.getConnectTypes().get(i).getJoinTypeString());
                  sBuilder.append(" ");
             }
                  sBuilder.append(sList.get(i));
             if(i==sList.size()){
-                sBuilder.append(" ");
+               
             }
         }
         return sBuilder.toString();
