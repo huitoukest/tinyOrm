@@ -31,14 +31,12 @@ public class TablesSql extends ASqlString<TableSql>{
             sBuilder.append(" ");
         }
         for(int i=0;i<whereList.size();i++){
+            TableSql tableSql=whereList.get(i);
              if(i>0)
                  {
                      sBuilder.append(" , ");             
                  }
-            sBuilder.append(whereList.get(i).getTableName());
-            sBuilder.append(" AS ");
-            sBuilder.append(whereList.get(i).getAlies());
-            
+            sBuilder.append(tableSql.getSqlString());
             if(i==whereList.size()){
                 sBuilder.append(" ");
             }

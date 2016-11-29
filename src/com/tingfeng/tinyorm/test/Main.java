@@ -12,7 +12,7 @@ import com.tingfeng.tinyorm.sql.impl.WhereSql;
 import com.tingfeng.tinyorm.test.bean.Book;
 import com.tingfeng.tinyorm.test.bean.User;
 import java.math.BigDecimal;
-import util.tingfeng.java.base.database.common.SqlFormatUtils2;
+import util.tingfeng.java.base.database.common.SqlFormatUtils;
 
 public class Main { 
     public static void main(String[] args){ 
@@ -26,8 +26,8 @@ public class Main {
       TableSql ta=new TableSql(User.class,"user");
       TableSql tb=new TableSql(Book.class,"book");
       JoinCondition joinCondition=new JoinCondition(tb, JoinType.RIGHT);
-                    joinCondition.add("user.userName!=?","李大叔");
-                    joinCondition.add("user.userName!=?","李大叔");
+                    joinCondition.add("user.userName!=?","张大叔");
+                    joinCondition.add("user.userName!=?","王大叔");
       ta.setJoinCondition(joinCondition);
       tables.add(ta);
               
@@ -59,9 +59,9 @@ public class Main {
        
       System.out.println(queryB.getQueryString());
       System.out.println();
-      System.out.println(new SqlFormatUtils2().format(queryB.getQueryString()));
+      System.out.println(new SqlFormatUtils().format(queryB.getQueryString()));
       //SqlFormatUtils.printFormatSql(queryB.getQueryString());
-      //queryB.printFormateString();
+      queryB.printAllParams();
   }
     public static void test01(){
         Double d=12546351234165.12569874d;

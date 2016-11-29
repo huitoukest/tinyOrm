@@ -95,9 +95,9 @@ public class QuerySql {
 	    List<ISqlString<?>> sqlList=new ArrayList<ISqlString<?>>();
 	    this.addNotNullISqlString(sqlList,colums);
 	    this.addNotNullISqlString(sqlList,tables);
-	    this.addNotNullISqlString(sqlList,groupBySql);
-	    this.addNotNullISqlString(sqlList,havingSql);
 	    this.addNotNullISqlString(sqlList,whereSql);
+	    this.addNotNullISqlString(sqlList,groupBySql);
+        this.addNotNullISqlString(sqlList,havingSql);
 	    this.addNotNullISqlString(sqlList,orderBySql);
 	    this.addNotNullISqlString(sqlList,limitSql);
 	    return sqlList;
@@ -119,7 +119,7 @@ public class QuerySql {
 		for(int i=0;i<sqlList.size();i++)
 		{
 		    ISqlString<?> sqlString=sqlList.get(i);
-		    sb.append(sqlString.getSqlString(sb));
+		    sqlString.getSqlString(sb);
 		}
 		return sb.toString();
 	}
@@ -185,9 +185,14 @@ public class QuerySql {
         for(int i=0;i<sqlList.size();i++)
         {
             ISqlString<?> sqlString=sqlList.get(i);
-            allParams.addAll(sqlString.getParamsList());
+            List<Object> params=sqlString.getParamsList();
+            allParams.addAll(params);
         }
       return this.allParams;
+    }
+
+    public void printAllParams() {
+       this.printParams(this.getAllParams());
     }
     
 }

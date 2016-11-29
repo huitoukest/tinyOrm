@@ -3,6 +3,8 @@ package com.tingfeng.tinyorm.sql.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.tingfeng.java.base.common.utils.LogUtils;
+
 public class TableSql {
 	
 	private Class<?> cls=null;
@@ -50,9 +52,36 @@ public class TableSql {
 		this.joinCondition = joinCondition;
 	}
     public List<Object> getParams() {
+        try{
+            if(this.joinCondition!=null){
+                params.addAll(this.joinCondition.getJoinTable().getParams());
+                params.addAll(this.joinCondition.getParamsList());
+            }           
+        }catch (Exception e) {
+            LogUtils.error(getClass(),e);
+        }
         return params;
     }
     public void setParams(List<Object> params) {
         this.params = params;
     }	
+    
+    public String getSqlString(){
+        StringBuilder sBuilder=new StringBuilder();
+            sBuilder.append(this.getTableName());
+            sBuilder.append(" AS ");
+            sBuilder.append(this.getAlies());
+            if(null!=this.getJoinCondition()){
+                JoinCondition jCondition=this.getJoinCondition();
+                sBuilder.append(" ");     
+                sBuilder.append(jCondition.getJoinType());
+                sBuilder.append(" JOIN ");  
+                /*sBuilder.append(jCondition.getJoinTable().getTableName());
+                sBuilder.append(" ");
+                sBuilder.append(jCondition.getJoinTable().getAlies());*/
+                String joinSql=jCondition.getSqlString();
+                sBuilder.append(joinSql);
+            }
+        return sBuilder.toString();
+    }
 }
