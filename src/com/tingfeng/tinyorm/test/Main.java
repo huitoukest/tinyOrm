@@ -12,7 +12,7 @@ import com.tingfeng.tinyorm.sql.impl.WhereSql;
 import com.tingfeng.tinyorm.test.bean.Book;
 import com.tingfeng.tinyorm.test.bean.User;
 import java.math.BigDecimal;
-import util.tingfeng.java.base.database.common.SqlFormatUtils;
+//import util.tingfeng.java.base.database.common.SqlFormatUtils;
 
 public class Main { 
     public static void main(String[] args){ 
@@ -59,7 +59,7 @@ public class Main {
        
       System.out.println(queryB.getQueryString());
       System.out.println();
-      System.out.println(new SqlFormatUtils().format(queryB.getQueryString()));
+      //System.out.println(new SqlFormatUtils().format(queryB.getQueryString()));
       //SqlFormatUtils.printFormatSql(queryB.getQueryString());
       queryB.printAllParams();
   }
